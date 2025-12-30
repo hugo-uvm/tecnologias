@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Taylor Swift</title>
+
+  <!-- Fuentes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet" />
+
+  <style>
+    :root{
+      /* ROSA ROSA ROSA 💗 */
+      --pink1:#ff4fa3;
+      --pink2:#ff77c8;
+      --pink3:#ffb3e1;
+      --rose:#ff2f86;
+      --white:#ffffff;
+      --dark:#2a0016;
+
+      --card:rgba(255,255,255,0.14);
+      --stroke:rgba(255,255,255,0.22);
+      --shadow:0 18px 40px rgba(0,0,0,0.25);
+      --radius:18px;
+    }
+
+    *{ box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
+
+    body{
+      margin:0;
+      font-family:"Poppins", Arial, Helvetica, sans-serif;
+      color: rgba(255,255,255,0.95);
+      background:
+        radial-gradient(circle at 18% 12%, rgba(255,179,225,0.55), transparent 45%),
+        radial-gradient(circle at 82% 22%, rgba(255,79,163,0.45), transparent 50%),
+        radial-gradient(circle at 55% 88%, rgba(255,119,200,0.35), transparent 48%),
+        linear-gradient(135deg, var(--pink1), var(--pink2), var(--pink3));
+      overflow-x:hidden;
+    }
+
+    /* ===== HEADER + “POP SCOREBOARD” ===== */
+    header{
+      background: linear-gradient(90deg, rgba(255,47,134,0.55), rgba(255,119,200,0.45), rgba(255,179,225,0.50));
+      padding: 16px 16px 22px;
+      text-align:center;
+      animation: slideDown 1.2s ease;
+      border-bottom: 4px solid rgba(255,255,255,0.75);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(10px);
+    }
+
+    .scoreboard{
+      max-width: 980px;
+      margin: 0 auto 14px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 12px;
+      align-items: center;
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: rgba(42,0,22,0.28);
+      border: 1px solid rgba(255,255,255,0.22);
+      box-shadow: var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+
+    /* brillo tipo “luces” */
+    .scoreboard::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+      transform: translateX(-70%);
+      animation: scan 3.2s linear infinite;
+      opacity:0.95;
+      pointer-events:none;
+    }
+
+    @keyframes scan{
+      0%{ transform: translateX(-75%); }
+      100%{ transform: translateX(75%); }
+    }
+
+    .scorebox{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.18);
+      min-height: 54px;
+    }
+
+    .team{
+      display:flex;
+      flex-direction: column;
+      text-align:left;
+      gap: 2px;
+    }
+
+    .team small{
+      letter-spacing: 0.6px;
+      color: rgba(255,255,255,0.90);
+      font-size: 12px;
+    }
+
+    .team strong{
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 13px;
+      color: var(--white);
+      text-shadow: 0 2px 0 rgba(0,0,0,0.20);
+    }
+
+    .points{
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--white);
+      text-shadow: 0 2px 0 rgba(0,0,0,0.20);
+      font-family: "Orbitron", sans-serif;
+    }
+
+    .clock{
+      padding: 10px 14px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.16);
+      border: 1px solid rgba(255,255,255,0.40);
+      color: var(--white);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 12px;
+      text-align:center;
+      min-width: 170px;
+      line-height: 1.2;
+      font-family: "Orbitron", sans-serif;
+    }
+
+    .clock span{
+      display:block;
+      font-size: 18px;
+      margin-top: 4px;
+      color: #fff;
+    }
+
+    header h1{
+      margin: 6px 0 8px;
+      font-family:"Orbitron", sans-serif;
+      color: var(--white);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 0 rgba(0,0,0,0.20);
+    }
+
+    .subtitle{
+      margin: 0 0 12px;
+      color: rgba(255,255,255,0.90);
+      font-size: 13px;
+    }
+
+    /* ===== NAV “BOTONES” ===== */
+    nav{
+      display:flex;
+      justify-content:center;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding-bottom: 6px;
+    }
+
+    nav a{
+      text-decoration:none;
+      color: #fff;
+      font-weight:800;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      font-size: 12.5px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      position: relative;
+      background: rgba(255,255,255,0.16);
+      border: 1px solid rgba(255,255,255,0.30);
+      box-shadow: 0 10px 18px rgba(0,0,0,0.18);
+      overflow: hidden;
+    }
+
+    nav a::before{
+      content:"";
+      position:absolute;
+      inset: 3px;
+      border-radius: 999px;
+      border: 1px dashed rgba(255,255,255,0.55);
+      pointer-events: none;
+      opacity: 0.95;
+    }
+
+    nav a::after{
+      content:"";
+      position:absolute;
+      top:0;
+      left:-40%;
+      width:40%;
+      height:100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.45), transparent);
+      transform: skewX(-20deg);
+      opacity: 0.0;
+    }
+
+    nav a:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,0.22);
+    }
+
+    nav a:hover::after{
+      opacity: 1;
+      left: 120%;
+      transition: left 0.7s ease;
+    }
+
+    /* ===== HERO ===== */
+    .hero{
+      display:flex;
+      align-items:center;
+      gap:20px;
+      padding:30px;
+      animation: fadeIn 1.6s ease;
+      flex-wrap: wrap;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .hero h2{
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin: 0 0 10px;
+      color: var(--white);
+      text-shadow: 0 2px 0 rgba(0,0,0,0.18);
+      font-family:"Orbitron", sans-serif;
+    }
+
+    .hero p{
+      line-height: 1.75;
+      max-width: 700px;
+      margin: 0 0 10px;
+      font-size: 14px;
+      color: rgba(255,255,255,0.95);
+    }
+
+    .hero img{
+      width:40%;
+      min-width: 260px;
+      border-radius: 20px;
+      box-shadow: 0 0 22px rgba(0,0,0,0.35);
+      border: 4px solid rgba(255,255,255,0.85);
+      filter: saturate(1.08) contrast(1.05);
+    }
+
+    .pillRow{ margin-top: 10px; }
+
+    .pill{
+      display:inline-block;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.16);
+      border: 1px solid rgba(255,255,255,0.30);
+      font-size: 12px;
+      letter-spacing: 0.5px;
+      margin-right: 8px;
+      margin-top: 6px;
+      box-shadow: 0 10px 18px rgba(0,0,0,0.12);
+    }
+
+    /* ===== CARDS ===== */
+    .card{
+      background: var(--card);
+      margin:20px auto;
+      padding:20px;
+      border-radius: var(--radius);
+      animation: pop 1.2s ease;
+      border: 1px solid rgba(255,255,255,0.22);
+      box-shadow: var(--shadow);
+      max-width: 1100px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(255,255,255,0.14), transparent 40%),
+        radial-gradient(circle at 85% 20%, rgba(255,255,255,0.10), transparent 45%),
+        radial-gradient(circle at 60% 90%, rgba(255,255,255,0.10), transparent 45%);
+      pointer-events:none;
+      opacity: 0.85;
+    }
+
+    .card > *{ position:relative; }
+
+    .card h2{
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 800;
+      margin-top: 0;
+      color: var(--white);
+      font-family:"Orbitron", sans-serif;
+    }
+
+    .card p, .card li{
+      line-height: 1.75;
+      color: rgba(255,255,255,0.95);
+      font-size: 14px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .stat{
+      padding: 14px;
+      border-radius: 16px;
+      background: rgba(42,0,22,0.20);
+      border: 1px solid rgba(255,255,255,0.18);
+    }
+
+    .stat .k{
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: rgba(255,255,255,0.92);
+    }
+
+    .stat .v{
+      margin-top: 6px;
+      font-size: 18px;
+      font-weight: 800;
+      color: #fff;
+      font-family:"Orbitron", sans-serif;
+    }
+
+    .stat .hint{
+      margin-top: 6px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.90);
+    }
+
+    .gallery{
+      display:flex;
+      gap:16px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .gallery img{
+      width:260px;
+      max-width: 100%;
+      border-radius: 18px;
+      box-shadow: 0 0 18px rgba(0,0,0,0.35);
+      border: 4px solid rgba(255,255,255,0.85);
+    }
+
+    footer{
+      background: rgba(42,0,22,0.25);
+      color: rgba(255,255,255,0.92);
+      text-align:center;
+      padding:16px;
+      margin-top:20px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      border-top: 3px solid rgba(255,255,255,0.70);
+    }
+
+    /* Animaciones */
+    @keyframes fadeIn{ from{opacity:0;} to{opacity:1;} }
+    @keyframes slideDown{ from{transform:translateY(-50px); opacity:0;} to{transform:translateY(0); opacity:1;} }
+    @keyframes pop{ 0%{transform:scale(0.95); opacity:0;} 100%{transform:scale(1); opacity:1;} }
+
+    /* Responsive */
+    @media (max-width: 900px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+    @media (max-width: 720px){
+      .scoreboard{ grid-template-columns: 1fr; }
+      .clock{ min-width: auto; }
+      .hero img{ width: 100%; }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <!-- Pop “Scoreboard” -->
+    <div class="scoreboard">
+      <div class="scorebox">
+        <div class="team">
+          <small>Era</small>
+          <strong>Pop</strong>
+        </div>
+        <div class="points">13</div>
+      </div>
+
+      <div class="clock">
+        Tour <b>LIVE</b>
+        <span>ERAS</span>
+      </div>
+
+      <div class="scorebox">
+        <div class="team">
+          <small>Vibe</small>
+          <strong>Swiftie</strong>
+        </div>
+        <div class="points">∞</div>
+      </div>
+    </div>
+
+    <h1>Taylor Swift</h1>
+    <p class="subtitle">Página rosa • Música, premios y álbumes</p>
+
+    <nav>
+      <a href="#inicio">Inicio</a>
+      <a href="#bio">Biografía</a>
+      <a href="#eras">Eras</a>
+      <a href="#albums">Álbums</a>
+      <a href="#logros">Logros</a>
+      <a href="#galeria">Galería</a>
+    </nav>
+  </header>
+
+  <section class="hero" id="inicio">
+    <div>
+      <h2>La reina del pop moderno</h2>
+      <p>
+        Bienvenido a esta página dedicada a <strong>Taylor Swift</strong>, una artista reconocida por su
+        talento como compositora, su evolución musical y su conexión con sus fans.
+      </p>
+      <p>Página creada por <strong>Brenda Tzitzihua Leon</strong>.</p>
+
+      <div class="pillRow">
+        <span class="pill">🎤 Cantante</span>
+        <span class="pill">✍️ Compositora</span>
+        <span class="pill">🎬 Productora</span>
+        <span class="pill">🏆 Premios</span>
+      </div>
+    </div>
+
+    <!-- Cambia por tu imagen -->
+    <img src="../../../../Working%20files/Brenda%20%20Tzitzihua%20Leon/U3%20-%20PROYECTO%20WEB/taylor1.jpg" alt="Taylor Swift" />
+  </section>
+
+  <section class="card" id="bio">
+    <h2>Biografía</h2>
+    <p>
+      <strong>Taylor Alison Swift</strong> nació el 13 de diciembre de 1989 en Pensilvania, Estados Unidos.
+      Es cantante, compositora y productora musical.
+    </p>
+    <p>
+      Empezó en el country y luego cambió al pop, probando nuevos estilos. Sus canciones suelen contar historias
+      (storytelling) y por eso mucha gente se identifica con sus letras.
+    </p>
+
+    <div class="grid">
+      <div class="stat">
+        <div class="k">Lo que la distingue</div>
+        <div class="v">Letras</div>
+        <div class="hint">Historias en canciones</div>
+      </div>
+      <div class="stat">
+        <div class="k">Estilo</div>
+        <div class="v">Eras</div>
+        <div class="hint">Cada álbum = una etapa</div>
+      </div>
+      <div class="stat">
+        <div class="k">Impacto</div>
+        <div class="v">Global</div>
+        <div class="hint">Fans en todo el mundo</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card" id="eras">
+    <h2>Eras (etapas)</h2>
+    <p>
+      Taylor es famosa por cambiar de “era” en cada álbum: cambia colores, outfits, sonido y concepto.
+    </p>
+    <ul>
+      <li><strong>Country:</strong> canciones juveniles con guitarra.</li>
+      <li><strong>Pop:</strong> producción moderna y hits internacionales.</li>
+      <li><strong>Indie/Folk:</strong> estilo más calmado y narrativo.</li>
+      <li><strong>Regrabaciones:</strong> “Taylor’s Version” para recuperar su música.</li>
+    </ul>
+  </section>
+
+  <section class="card" id="albums">
+    <h2>Álbums (selección)</h2>
+    <ul>
+      <li>Fearless (2008)</li>
+      <li>Speak Now (2010)</li>
+      <li>Red (2012)</li>
+      <li>1989 (2014)</li>
+      <li>Reputation (2017)</li>
+      <li>Lover (2019)</li>
+      <li>Folklore (2020)</li>
+      <li>Evermore (2020)</li>
+      <li>Midnights (2022)</li>
+    </ul>
+
+    <div class="grid">
+      <div class="stat">
+        <div class="k">Mi favorito</div>
+        <div class="v">[Álbum]</div>
+        <div class="hint">Midnights (2022)</div>
+      </div>
+      <div class="stat">
+        <div class="k">Canción favorita</div>
+        <div class="v">[Canción]</div>
+        <div class="hint">LOLM</div>
+      </div>
+      <div class="stat">
+        <div class="k">Era favorita</div>
+        <div class="v">[Era]</div>
+        <div class="hint">Lover, 1989…</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card" id="logros">
+    <h2>Logros</h2>
+    <ul>
+      <li>Múltiples premios Grammy</li>
+      <li>Récords de streaming y ventas</li>
+      <li>Giras internacionales con gran impacto</li>
+      <li>Reconocida por su creatividad y composición</li>
+    </ul>
+  </section>
+
+  <section class="card" id="galeria">
+    <h2>Galería</h2>
+  
+
+    <div class="gallery">
+      <img src="../../../../Working%20files/Brenda%20%20Tzitzihua%20Leon/U3%20-%20PROYECTO%20WEB/taylor2.jpg" alt="Taylor Swift foto 2" />
+      <img src="../../../../Working%20files/Brenda%20%20Tzitzihua%20Leon/U3%20-%20PROYECTO%20WEB/taylor3.jpg" alt="Taylor Swift foto 3" />
+    </div>
+  </section>
+
+  <footer>
+    <p>Brenda León • Página sobre Taylor Swift • 2025</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,17 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="320" viewBox="0 0 600 320">
+  <defs>
+    <filter id="shadow"><feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000" flood-opacity="0.08"/></filter>
+  </defs>
+  <rect width="600" height="320" fill="none"/>
+  <g stroke="#A50000" stroke-width="2" fill="none" filter="url(#shadow)" opacity="0.22">
+    <!-- Simple lynx face line-art placeholder -->
+    <path d="M120 220 C140 160, 180 120, 240 100 C300 80, 360 100, 420 140 C460 170, 480 210, 460 240" />
+    <path d="M160 120 C180 100, 180 80, 170 60" />
+    <path d="M440 120 C420 100, 420 80, 430 60" />
+    <circle cx="260" cy="160" r="8" />
+    <circle cx="340" cy="160" r="8" />
+    <path d="M260 200 Q300 220 340 200" />
+  </g>
+  <text x="300" y="300" text-anchor="middle" font-family="Inter" font-size="18" fill="#A50000" opacity="0.35">Lince UVM (placeholder)</text>
+</svg>
