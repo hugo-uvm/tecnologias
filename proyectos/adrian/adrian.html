@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cris MJ • Música Urbana</title>
+
+  <!-- Fuentes (bonitas + urban) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet" />
+
+  <style>
+    :root{
+      /* Paleta “Urban Neon” */
+      --bg1:#070714;     /* negro azulado */
+      --bg2:#120b2d;     /* morado oscuro */
+      --neon1:#00e5ff;   /* cyan */
+      --neon2:#ff2bd6;   /* fucsia */
+      --neon3:#7c4dff;   /* violeta */
+      --gold:#ffd54a;    /* acento */
+      --text:#e9f1ff;
+      --muted:rgba(233,241,255,.78);
+      --glass:rgba(255,255,255,.08);
+      --stroke:rgba(0,229,255,.25);
+      --shadow:0 18px 40px rgba(0,0,0,.45);
+      --radius:18px;
+    }
+
+    *{ box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
+
+    body{
+      margin:0;
+      color:var(--text);
+      font-family:"Poppins", Arial, sans-serif;
+      background:
+        radial-gradient(1200px 700px at 15% 10%, rgba(0,229,255,.20), transparent 55%),
+        radial-gradient(900px 600px at 85% 25%, rgba(255,43,214,.18), transparent 55%),
+        radial-gradient(900px 700px at 55% 90%, rgba(124,77,255,.15), transparent 55%),
+        linear-gradient(135deg, var(--bg1), var(--bg2));
+      overflow-x:hidden;
+    }
+
+    /* ======= Decoración (luces) ======= */
+    .glow{
+      position:fixed;
+      inset:-40px;
+      pointer-events:none;
+      background:
+        radial-gradient(circle at 30% 20%, rgba(0,229,255,.12), transparent 40%),
+        radial-gradient(circle at 70% 25%, rgba(255,43,214,.10), transparent 42%),
+        radial-gradient(circle at 55% 80%, rgba(124,77,255,.10), transparent 45%);
+      filter: blur(12px);
+      z-index:-1;
+      animation: floatGlow 10s ease-in-out infinite;
+    }
+    @keyframes floatGlow{
+      0%,100%{ transform: translateY(0px); }
+      50%{ transform: translateY(18px); }
+    }
+
+    /* ======= Header / “Stage HUD” ======= */
+    header{
+      position:sticky;
+      top:0;
+      z-index:50;
+      padding:14px 14px 18px;
+      background: linear-gradient(90deg, rgba(7,7,20,.85), rgba(18,11,45,.75));
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(0,229,255,.25);
+    }
+
+    .hud{
+      max-width:1100px;
+      margin:0 auto 12px;
+      display:grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap:10px;
+      align-items:center;
+      padding:12px 14px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(0,229,255,.18);
+      box-shadow: var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+    .hud::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background: linear-gradient(90deg, transparent, rgba(0,229,255,.18), transparent);
+      transform: translateX(-60%);
+      animation: scan 3.2s linear infinite;
+      opacity:.85;
+      pointer-events:none;
+    }
+    @keyframes scan{
+      0%{ transform: translateX(-70%); }
+      100%{ transform: translateX(70%); }
+    }
+
+    .hudBox{
+      display:flex;
+      justify-content: space-between;
+      gap:10px;
+      align-items:center;
+      padding:10px 12px;
+      border-radius: 14px;
+      background: rgba(0,0,0,.25);
+      border: 1px solid rgba(255,255,255,.10);
+      min-height:54px;
+    }
+    .hudLabel{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+    }
+    .hudLabel small{
+      color: var(--muted);
+      font-size:12px;
+      letter-spacing:.6px;
+    }
+    .hudLabel strong{
+      font-family:"Bebas Neue", sans-serif;
+      letter-spacing:1px;
+      font-size:18px;
+      color: var(--neon1);
+    }
+    .hudValue{
+      font-weight:800;
+      letter-spacing:.6px;
+      text-shadow: 0 0 16px rgba(0,229,255,.25);
+    }
+
+    .centerChip{
+      min-width:190px;
+      text-align:center;
+      padding:10px 14px;
+      border-radius: 14px;
+      background: rgba(255,43,214,.12);
+      border: 1px solid rgba(255,43,214,.45);
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size:12px;
+      line-height:1.1;
+    }
+    .centerChip span{
+      display:block;
+      margin-top:5px;
+      font-size:18px;
+      font-weight:800;
+      color: var(--gold);
+      text-shadow: 0 0 18px rgba(255,213,74,.25);
+    }
+
+    .titleRow{
+      max-width:1100px;
+      margin:0 auto;
+      display:flex;
+      align-items:baseline;
+      justify-content: space-between;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    .brand{
+      font-family:"Bebas Neue", sans-serif;
+      font-size:44px;
+      letter-spacing:2px;
+      margin: 0;
+      line-height:1;
+      text-transform: uppercase;
+    }
+    .brand b{
+      background: linear-gradient(90deg, var(--neon1), var(--neon2));
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+      text-shadow:none;
+    }
+    .subtitle{
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    nav{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:center;
+      padding-top:12px;
+      max-width:1100px;
+      margin:0 auto;
+    }
+    nav a{
+      text-decoration:none;
+      color:#fff;
+      font-weight:700;
+      font-size:12.5px;
+      letter-spacing:.8px;
+      text-transform: uppercase;
+      padding:10px 14px;
+      border-radius:999px;
+      background: linear-gradient(180deg, rgba(0,229,255,.14), rgba(0,0,0,.12));
+      border:1px solid rgba(0,229,255,.35);
+      box-shadow: 0 12px 20px rgba(0,0,0,.25);
+      position:relative;
+      overflow:hidden;
+      transform: translateZ(0);
+    }
+    nav a::after{
+      content:"";
+      position:absolute;
+      top:0; left:-45%;
+      width:45%; height:100%;
+      background: linear-gradient(90deg, transparent, rgba(255,213,74,.45), transparent);
+      transform: skewX(-20deg);
+      opacity:0;
+    }
+    nav a:hover{
+      border-color: rgba(255,43,214,.55);
+      background: rgba(255,43,214,.14);
+      transform: translateY(-1px);
+    }
+    nav a:hover::after{
+      opacity:1;
+      left:130%;
+      transition: left .75s ease;
+    }
+
+    /* ======= Layout ======= */
+    .wrap{ max-width:1100px; margin:0 auto; padding: 22px 14px 30px; }
+
+    .hero{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap:18px;
+      align-items:center;
+      margin-top: 8px;
+    }
+
+    .heroCard{
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+
+    .heroCard .inner{
+      padding:22px;
+    }
+
+    .hero h2{
+      margin:0 0 10px;
+      font-family:"Bebas Neue", sans-serif;
+      font-size: 34px;
+      letter-spacing:1px;
+      text-transform: uppercase;
+    }
+
+    .hero p{
+      margin:0 0 10px;
+      color: var(--muted);
+      line-height:1.75;
+      font-size: 14px;
+    }
+
+    .badges{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top: 12px;
+    }
+    .pill{
+      padding:8px 12px;
+      border-radius:999px;
+      background: rgba(0,229,255,.10);
+      border: 1px solid rgba(0,229,255,.25);
+      color:#fff;
+      font-size:12px;
+      letter-spacing:.4px;
+    }
+    .pill.alt{
+      background: rgba(255,43,214,.10);
+      border-color: rgba(255,43,214,.25);
+    }
+    .pill.gold{
+      background: rgba(255,213,74,.10);
+      border-color: rgba(255,213,74,.25);
+      color: rgba(255,255,255,.95);
+    }
+
+    .ctaRow{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top: 16px;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(0,229,255,.35);
+      background: linear-gradient(90deg, rgba(0,229,255,.16), rgba(255,43,214,.10));
+      color:#fff;
+      text-decoration:none;
+      font-weight:700;
+      font-size:12.5px;
+      letter-spacing:.6px;
+      text-transform: uppercase;
+      box-shadow: 0 12px 20px rgba(0,0,0,.25);
+    }
+    .btn:hover{ transform: translateY(-1px); border-color: rgba(255,213,74,.55); }
+    .btn.ghost{
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.14);
+    }
+
+    .heroImg{
+      min-height: 320px;
+      display:flex;
+      align-items:stretch;
+      justify-content:stretch;
+    }
+    .heroImg img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      filter: saturate(1.1) contrast(1.05);
+    }
+    .imgOverlay{
+      position:absolute;
+      inset:0;
+      background: linear-gradient(180deg, rgba(0,0,0,.05), rgba(0,0,0,.55));
+      pointer-events:none;
+    }
+    .tagCorner{
+      position:absolute;
+      left:14px;
+      top:14px;
+      padding:8px 12px;
+      border-radius: 999px;
+      background: rgba(0,0,0,.35);
+      border:1px solid rgba(0,229,255,.30);
+      font-size: 12px;
+      letter-spacing:.6px;
+      text-transform: uppercase;
+      box-shadow: 0 12px 20px rgba(0,0,0,.25);
+    }
+
+    /* ======= Secciones ======= */
+    .section{
+      margin-top: 18px;
+      padding: 18px;
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      box-shadow: var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+    .section::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background: radial-gradient(circle at 25% 0%, rgba(0,229,255,.18), transparent 40%),
+                  radial-gradient(circle at 75% 10%, rgba(255,43,214,.16), transparent 45%);
+      opacity:.6;
+      pointer-events:none;
+    }
+    .section > *{ position:relative; }
+
+    .section h3{
+      margin:0 0 10px;
+      font-family:"Bebas Neue", sans-serif;
+      font-size: 28px;
+      letter-spacing:1px;
+      text-transform: uppercase;
+      color:#fff;
+    }
+
+    .section p, .section li{
+      color: var(--muted);
+      line-height:1.75;
+      font-size: 14px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:12px;
+      margin-top: 12px;
+    }
+    .tile{
+      padding:14px;
+      border-radius: 16px;
+      background: rgba(0,0,0,.25);
+      border: 1px solid rgba(0,229,255,.18);
+      min-height: 110px;
+    }
+    .tile .k{
+      font-size: 12px;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+      color: rgba(233,241,255,.78);
+    }
+    .tile .v{
+      margin-top: 6px;
+      font-weight:800;
+      color:#fff;
+      font-size: 16px;
+    }
+    .tile .hint{
+      margin-top: 6px;
+      font-size: 12px;
+      color: rgba(255,213,74,.90);
+    }
+
+    .list2{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px 16px;
+      margin-top: 10px;
+      padding-left: 18px;
+    }
+
+    .timeline{
+      margin: 12px 0 0;
+      padding: 0;
+      list-style:none;
+      display:grid;
+      gap:10px;
+    }
+    .timeline li{
+      padding: 12px 12px 12px 14px;
+      border-radius: 14px;
+      background: rgba(0,0,0,.25);
+      border: 1px solid rgba(255,255,255,.10);
+      position:relative;
+    }
+    .timeline li::before{
+      content:"";
+      position:absolute;
+      left: 10px;
+      top: 16px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--neon1);
+      box-shadow: 0 0 14px rgba(0,229,255,.45);
+    }
+    .timeline b{
+      color:#fff;
+    }
+
+    /* ======= Galería ======= */
+    .gallery{
+      display:flex;
+      gap:12px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+    .gallery img{
+      width:260px;
+      max-width:100%;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: 0 14px 30px rgba(0,0,0,.35);
+      object-fit: cover;
+    }
+
+    /* ======= Footer ======= */
+    footer{
+      margin-top: 22px;
+      padding: 18px 14px;
+      text-align:center;
+      color: rgba(233,241,255,.75);
+      border-top: 1px solid rgba(0,229,255,.18);
+      background: rgba(0,0,0,.20);
+      font-size: 13px;
+    }
+
+    /* ======= Botón arriba ======= */
+    .toTop{
+      position:fixed;
+      right: 14px;
+      bottom: 14px;
+      border: 1px solid rgba(0,229,255,.35);
+      background: rgba(0,0,0,.35);
+      color:#fff;
+      padding: 10px 12px;
+      border-radius: 999px;
+      cursor:pointer;
+      box-shadow: 0 12px 24px rgba(0,0,0,.35);
+      font-weight:700;
+      letter-spacing:.6px;
+      text-transform: uppercase;
+      font-size: 12px;
+      display:none;
+      backdrop-filter: blur(8px);
+    }
+    .toTop:hover{ border-color: rgba(255,213,74,.55); transform: translateY(-1px); }
+
+    /* ======= Responsive ======= */
+    @media (max-width: 920px){
+      .hero{ grid-template-columns: 1fr; }
+      .heroImg{ min-height: 280px; }
+      .grid{ grid-template-columns: 1fr; }
+      .list2{ grid-template-columns: 1fr; }
+      .hud{ grid-template-columns: 1fr; }
+      .centerChip{ min-width: auto; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="glow"></div>
+
+  <header>
+    <!-- HUD (tipo “concierto / escenario”) -->
+    <div class="hud">
+      <div class="hudBox">
+        <div class="hudLabel">
+          <small>Artista</small>
+          <strong>CRIS MJ</strong>
+        </div>
+        <div class="hudValue">URBAN</div>
+      </div>
+
+      <div class="centerChip">
+        Mood
+        <span>NEON NIGHT</span>
+      </div>
+
+      <div class="hudBox">
+        <div class="hudLabel">
+          <small>Vibe</small>
+          <strong>ENERGÍA</strong>
+        </div>
+        <div class="hudValue">100%</div>
+      </div>
+    </div>
+
+    <div class="titleRow">
+      <div>
+        <h1 class="brand">Cris <b>MJ</b></h1>
+        <p class="subtitle">Página escolar estilo urbano (neón) • Música y trayectoria</p>
+      </div>
+    </div>
+
+    <nav>
+      <a href="#inicio">Inicio</a>
+      <a href="#bio">Biografía</a>
+      <a href="#estilo">Estilo</a>
+      <a href="#musica">Música</a>
+      <a href="#galeria">Galería</a>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <!-- HERO -->
+    <section class="hero" id="inicio">
+      <div class="heroCard">
+        <div class="inner">
+          <h2>Sonido Urbano • Flow • Neon Vibes</h2>
+          <p>
+            Bienvenido a esta página dedicada a <strong>Cris MJ</strong>, un artista de música urbana
+            conocido por su estilo moderno, ritmos pegajosos y energía en sus canciones.
+          </p>
+          <p><strong>Página creada por Guillermo Adrian Leon Mendieta.</strong></p>
+
+          <div class="badges">
+            <span class="pill">🎧 Urbano</span>
+            <span class="pill alt">✨ Neón</span>
+            <span class="pill gold">🔥 Flow</span>
+            <span class="pill">🎶 Beats</span>
+          </div>
+
+          <div class="ctaRow">
+            <a class="btn" href="#musica">▶ Ver música</a>
+            <a class="btn ghost" href="#bio">📌 Ir a biografía</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="heroCard heroImg">
+        <!-- Cambia por tu imagen -->
+        <img src="cris1.jpg" alt="Cris MJ" />
+        <div class="imgOverlay"></div>
+        <div class="tagCorner">Urban • Chile</div>
+      </div>
+    </section>
+
+    <!-- BIOGRAFÍA -->
+    <section class="section" id="bio">
+      <h3>Biografía</h3>
+      <p>
+        <strong>Cris MJ</strong> es un artista de música urbana reconocido en Latinoamérica por su
+        sonido actual y su presencia en la escena. Su música suele combinar ritmos modernos
+        con letras pegajosas y un estilo muy juvenil.
+      </p>
+
+      <ul class="timeline">
+        <li><b>Inicio:</b> Se da a conocer en la escena urbana con canciones que se vuelven populares en redes y plataformas.</li>
+        <li><b>Crecimiento:</b> Colabora y lanza temas que conectan con el público por su ritmo y energía.</li>
+        <li><b>Actualidad:</b> Mantiene un estilo moderno y continúa lanzando música para su comunidad de fans.</li>
+      </ul>
+
+      <div class="grid">
+        <div class="tile">
+          <div class="k">Identidad</div>
+          <div class="v">Música urbana</div>
+          <div class="hint">Ritmo + actitud + estilo</div>
+        </div>
+        <div class="tile">
+          <div class="k">Lo que destaca</div>
+          <div class="v">Flow & pegajosidad</div>
+          <div class="hint">Canciones fáciles de recordar</div>
+        </div>
+        <div class="tile">
+          <div class="k">Impacto</div>
+          <div class="v">Tendencia en redes</div>
+          <div class="hint">Plataformas + fans</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ESTILO -->
+    <section class="section" id="estilo">
+      <h3>Estilo musical</h3>
+      <p>
+        En la música urbana es común mezclar diferentes sonidos. En su caso, su propuesta suele
+        moverse entre ritmos bailables, melodías modernas y un ambiente “night/club”.
+      </p>
+
+      <div class="grid">
+        <div class="tile">
+          <div class="k">Ritmo</div>
+          <div class="v">Bailable</div>
+          <div class="hint">Ideal para mood “fiesta”</div>
+        </div>
+        <div class="tile">
+          <div class="k">Sonido</div>
+          <div class="v">Moderno</div>
+          <div class="hint">Beats actuales</div>
+        </div>
+        <div class="tile">
+          <div class="k">Vibra</div>
+          <div class="v">Neón / nocturna</div>
+          <div class="hint">Estética urbana</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MÚSICA -->
+    <section class="section" id="musica">
+      <h3>Música (temas y proyectos)</h3>
+      
+
+      <ul class="list2">
+        <li>🎵 Tema popular: <b>Una Noche en Medellín</b></li>
+        <li>🎵 Colaboración: <b>Gata Only</b></li>
+        <li>🎵 Tema para fiesta: <b>No Ponga Excusa</b></li>
+        <li>🎵 Tema romántico: <b>Si no es contigo</b></li>
+        <li>💿 Proyecto/EP: <b>Daytona</b></li>
+        <li>💿 Álbum: <b>Partyson 2023</b></li>
+      </ul>
+
+      <div class="grid">
+        <div class="tile">
+          <div class="k">Temática común</div>
+          <div class="v">Juventud & vida urbana</div>
+          <div class="hint">Letras directas y actuales</div>
+        </div>
+        <div class="tile">
+          <div class="k">Energía</div>
+          <div class="v">Alta</div>
+          <div class="hint">Perfecto para “mood” activo</div>
+        </div>
+        <div class="tile">
+          <div class="k">Plataformas</div>
+          <div class="v">Streaming</div>
+          <div class="hint">Playlists y tendencias</div>
+        </div>
+      </div>
+
+      <!-- Opcional: reproductor local (si tienes un MP3) -->
+      <!--
+      <p style="margin-top:14px;color:rgba(233,241,255,.78)">
+        Reproductor (opcional): coloca un archivo MP3 en tu carpeta y cámbiale el nombre.
+      </p>
+      <audio controls style="width:100%; margin-top:6px;">
+        <source src="CRIS_MJ.mp3" type="audio/mpeg">
+        Tu navegador no soporta audio.
+      </audio>
+      -->
+    </section>
+
+    <!-- GALERÍA -->
+    <section class="section" id="galeria">
+      <h3>Galería</h3>
+     
+      <div class="gallery">
+        <img src="cris2.jpg" alt="Cris MJ foto 2" />
+        <img src="cris3.jpg" alt="Cris MJ foto 3" />
+        <img src="cris4.jpg" alt="Cris MJ foto 4" />
+      </div>
+
+      <p style="margin-top:12px;">
+        <span class="pill">📸 Estilo</span>
+        <span class="pill alt">🌃 Noche</span>
+        <span class="pill gold">🎤 Escenario</span>
+      </p>
+    </section>
+
+    <footer>
+      Adrian Leon • Página sobre Cris MJ • 2025<br />
+          </footer>
+  </main>
+
+  <button class="toTop" id="toTop" aria-label="Subir">↑ Arriba</button>
+
+  <script>
+    const btn = document.getElementById("toTop");
+    window.addEventListener("scroll", () => {
+      btn.style.display = (window.scrollY > 500) ? "inline-flex" : "none";
+    });
+    btn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+  </script>
+</body>
+</html>

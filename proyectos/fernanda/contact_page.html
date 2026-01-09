@@ -1,0 +1,58 @@
+<!-- contact_page.html -->
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contacto — México y sus culturas</title>
+  <meta name="description" content="Formulario para contacto y comentarios." />
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Montserrat:wght@400;600&family=Ranchers&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="script.js"></script>
+</head>
+<body data-page="contact_page">
+  <header class="header">
+    <a class="logo" href="index.html">México y sus culturas</a>
+    <nav class="nav">
+      <a href="gallery_page.html">Galería</a>
+      <a href="history_intro.html">Introducción histórica</a>
+      <a href="fun_facts.html">Datos curiosos</a>
+      <a href="traditions_origins.html">Tradiciones</a>
+      <a href="about_page.html">Acerca de</a>
+      <a href="contact_page.html" class="btn active">Contacto</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Contacto</h1>
+    <p>Comparte tus comentarios o propuestas para enriquecer este proyecto cultural.</p>
+
+    <form class="contact-form" id="contactForm" novalidate>
+      <div class="form-row">
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required />
+        <span class="error" data-error-for="nombre"></span>
+      </div>
+      <div class="form-row">
+        <label for="email">Correo electrónico</label>
+        <input type="email" id="email" name="email" placeholder="tucorreo@ejemplo.com" required />
+        <span class="error" data-error-for="email"></span>
+      </div>
+      <div class="form-row">
+        <label for="mensaje">Mensaje</label>
+        <textarea id="mensaje" name="mensaje" rows="5" placeholder="Escribe tu mensaje..." required></textarea>
+        <span class="error" data-error-for="mensaje"></span>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Enviar</button>
+        <button type="reset" class="btn btn-outline">Limpiar</button>
+      </div>
+      <p class="form-status" id="formStatus" aria-live="polite"></p>
+    </form>
+  </main>
+
+  <footer class="footer">
+    <p>Hecho con orgullo mexicano — © 2026</p>
+  </footer>
+</body>
+</html>

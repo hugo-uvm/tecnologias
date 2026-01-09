@@ -1,6 +1,6 @@
 
 /* UVM Tecnologías — main.js */
-(function(){
+(function () {
   const html = document.documentElement;
   const nav = document.querySelector('.nav');
   const menu = document.getElementById('menu');
@@ -13,7 +13,7 @@
   const savedTheme = localStorage.getItem('theme');
   if (savedTheme) html.setAttribute('data-theme', savedTheme);
 
-  function setTheme(next){
+  function setTheme(next) {
     html.setAttribute('data-theme', next);
     localStorage.setItem('theme', next);
   }
@@ -70,7 +70,7 @@
   // Contact form basic validation
   const form = document.getElementById('contact-form');
   const status = document.getElementById('form-status');
-  function isValidEmail(email){
+  function isValidEmail(email) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   }
   form && form.addEventListener('submit', (e) => {
@@ -83,7 +83,7 @@
     if (mensaje.length < 10) { status.textContent = 'El mensaje debe tener al menos 10 caracteres.'; return; }
     status.textContent = '¡Gracias! Tu mensaje fue validado en el navegador.';
     // Opcional: enviar por mailto
-    const mailto = 'mailto:correo@uvm.mx' + '?subject=' + encodeURIComponent('Contacto desde sitio UVM') + '&body=' + encodeURIComponent(`Nombre: ${nombre}
+    const mailto = 'mailto:hugo_contrerasr@my.uvm.edu.mx' + '?subject=' + encodeURIComponent('Contacto desde sitio UVM-TI') + '&body=' + encodeURIComponent(`Nombre: ${nombre}
 Email: ${email}
 
 ${mensaje}`);
